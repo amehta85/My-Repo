@@ -1,0 +1,23 @@
+name: Nightly Run
+
+on:
+  workflow_dispatch: # Manual trigger
+  schedule:
+    - cron: '30 11 * * *'
+
+jobs:
+  run-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run all Python scripts
+        run: |
+          for script in src/*.py; do
+            echo "Running $script"
+            python "$script"
+          done
